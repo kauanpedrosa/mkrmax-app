@@ -1,50 +1,69 @@
-# Welcome to your Expo app 👋
+# Max Clone - Splash & Login 🎬
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+Este é um projeto de estudo desenvolvido com **React Native** e **Expo**. O objetivo foi recriar a experiência visual do aplicativo **Max** (antigo HBO Max), focando em animações de Splash Screen, feedback sonoro e uma interface de login moderna.
 
-## Get started
+## 🚀 Funcionalidades
 
-1. Install dependencies
+* **Splash Screen Animada:** Logo com efeitos de fade-in e escala.
+* **Identidade Sonora:** Som de introdução cinematográfico ao abrir o app.
+* **Tratamento de Áudio:** Sistema de fade-out no som para evitar cortes bruscos na transição de telas.
+* **Interface de Login:** Design baseado em gradientes, inputs estilizados e validação de campos.
+* **Feedback ao Usuário:** Alertas personalizados para funcionalidades em desenvolvimento e validação de credenciais.
 
+## 🛠 Tecnologias Utilizadas
+
+* [React Native](https://reactnative.dev/)
+* [Expo](https://expo.dev/)
+* [Expo AV](https://docs.expo.dev/versions/latest/sdk/av/) (Áudio) - a ser atualizado para uma versão mais atual
+* [Expo Linear Gradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)
+* [Lucide React Native / Ionicons](https://icons.expo.fyi/) (Ícones)
+
+## 📦 Como rodar o projeto
+
+1. **Clone o repositório:**
+   ```bash
+   git clone [https://github.com/kauanpedrosa/mkrmax-app.git](https://github.com/kauanpedrosa/mkrmax-app.git)```
+
+2. **Entre na pasta do projeto:**
+   ```bash
+   cd meu-app-incrivel
+
+3. **Instale as dependências:**
    ```bash
    npm install
-   ```
 
-2. Start the app
-
+4. **Inicie o servidor da Expo:**
    ```bash
    npx expo start
-   ```
 
-In the output, you'll find options to open the app in a
+5. **Abra seu dispositivo:**
+   - Use o app Expo Go (Android/iOS) para escanear o QR Code.
+   - Ou pressione a para Android ou i para iOS (se tiver simuladores instalados)
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+🔑 Credenciais de Teste (Login)
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+E-mail: admin
 
-## Get a fresh project
+Senha: 123
 
-When you're ready, run:
+## 🤝 Colaboradores
 
-```bash
-npm run reset-project
-```
-
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
-
-## Learn more
-
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/kauanpedrosa">
+        <img src="https://github.com/kauanpedrosa.png" width="100px;" alt="Foto do Seu Nome"/><br>
+        <sub><b>Kauan Pedrosa</b></a></sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/RafaLimaaaa">
+        <img src="https://github.com/RafaLimaaa.png" width="100px;" alt="Foto Amigo"/><br>
+        <sub><b>Rafael Lima Reis</b></a></sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/milene0627">
+        <img src="https://github.com/milene0627.png" width="100px;" alt="Foto Amigo"/><br>
+        <sub><b>Millene Oliveira</b></a></sub>
+    </td>
+  </tr>
+</table>
