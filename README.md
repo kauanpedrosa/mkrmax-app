@@ -39,8 +39,10 @@ Este é um projeto de estudo desenvolvido com **React Native** e **Expo**. O obj
 
 5. **Escolha sua plataforma:**
    - Pressione w para abrir no Navegador (Web) 🖥️
-   - Pressione a para abrir no Android (emulador ou dispositivo físico) - Aplicativo Expo GO necessário
-   - Pressione i para abrir no iOS (emulador ou dispositivo físico) - Aplicativo Expo GO necessário
+   - Leia o QR Code exibido para abrir no celular (Android ou IOS) 
+     > Aplicativo Expo GO necessário 📱
+   - Pressione a para abrir no Android (emulador)
+   - Pressione i para abrir no iOS (emulador) 
 
 🔑 Credenciais de Teste (Login)
 
