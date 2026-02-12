@@ -36,10 +36,11 @@ Este é um projeto de estudo desenvolvido com **React Native** e **Expo**. O obj
    ```bash
    npx expo start
 
-5. **Abra seu dispositivo:**
-   - Use o app Expo Go (Android/iOS) para escanear o QR Code.
-   - Ou pressione a para Android ou i para iOS (se tiver simuladores instalados)
-
+5. **Escolha sua plataforma:**
+   - Pressione w para abrir no Navegador (Web) 🖥️
+   - Pressione a para abrir no Android (emulador ou dispositivo físico) - Aplicativo Expo GO necessário
+   - Pressione i para abrir no iOS (emulador ou dispositivo físico) - Aplicativo Expo GO necessário
+   
 🔑 Credenciais de Teste (Login)
 
 E-mail: admin
