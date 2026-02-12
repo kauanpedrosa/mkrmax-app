@@ -12,7 +12,8 @@ Este é um projeto de estudo desenvolvido com **React Native** e **Expo**. O obj
 
 ## 🛠 Tecnologias Utilizadas
 
-* [React Native](https://reactnative.dev/)
+* [React Native Web](https://reactnative.dev/)
+* [TypeScript](https://www.typescriptlang.org/)
 * [Expo](https://expo.dev/)
 * [Expo AV](https://docs.expo.dev/versions/latest/sdk/av/) (Áudio) - a ser atualizado para uma versão mais atual
 * [Expo Linear Gradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)
@@ -40,7 +41,7 @@ Este é um projeto de estudo desenvolvido com **React Native** e **Expo**. O obj
    - Pressione w para abrir no Navegador (Web) 🖥️
    - Pressione a para abrir no Android (emulador ou dispositivo físico) - Aplicativo Expo GO necessário
    - Pressione i para abrir no iOS (emulador ou dispositivo físico) - Aplicativo Expo GO necessário
-   
+
 🔑 Credenciais de Teste (Login)
 
 E-mail: admin
