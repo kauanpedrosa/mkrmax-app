@@ -22,7 +22,7 @@ Este é um projeto de estudo desenvolvido com **React Native** e **Expo**. O obj
 
 1. **Clone o repositório:**
    ```bash
-   git clone [https://github.com/kauanpedrosa/mkrmax-app.git](https://github.com/kauanpedrosa/mkrmax-app.git)```
+   git clone https://github.com/kauanpedrosa/mkrmax-app.git
 
 2. **Entre na pasta do projeto:**
    ```bash
