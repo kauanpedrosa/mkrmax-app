@@ -5,10 +5,16 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons'; 
+import { useRouter } from 'expo-router';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const router = useRouter();
+
+  function irParaCadastro() {
+    router.push('/cadastro');
+  }
 
   // --- LÓGICA DE LOGIN ---
   const handleLogin = () => {
@@ -89,7 +95,7 @@ export default function Login() {
         </TouchableOpacity>
 
         {/* REGISTRO */}
-        <TouchableOpacity style={{ marginTop: 30 }} onPress={() => handleNotImplemented('Criar Conta')}>
+        <TouchableOpacity style={{ marginTop: 30 }} onPress={irParaCadastro}>
           <Text style={styles.signupText}>
             Não tem uma conta? <Text style={{fontWeight: 'bold', color: '#fff'}}>Assine agora</Text>
           </Text>
