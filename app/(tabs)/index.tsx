@@ -3,7 +3,7 @@ import { View, Image, Animated, StatusBar, StyleSheet } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Audio } from 'expo-av';
 
-import Login from '../../components/login';
+import Login from '../login';
 
 export default function App() {
   const [splashFinished, setSplashFinished] = useState(false);
