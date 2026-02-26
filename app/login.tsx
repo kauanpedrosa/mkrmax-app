@@ -5,7 +5,8 @@ import {
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons'; 
-import { useRouter } from 'expo-router';
+import { useRouter, Stack } from 'expo-router';
+
 
 export default function Login() {
   const [email, setEmail] = useState('');
@@ -23,20 +24,12 @@ export default function Login() {
       Alert.alert("Atenção ⚠️", "Por favor, preencha o e-mail e a palavra-passe.");
       return;
     }
-
-    // 2. VALIDAÇÃO (Simulação)
-    // Aqui pode testar: E-mail 'admin' e Senha '123'
-    if (email === 'admin' && password === '123') {
-      Alert.alert(
-        "Login Efetuado! ✅",
-        "As credenciais estão corretas. Acesso permitido.",
-        [{ text: "OK" }]
-      );
-    } else {
-      Alert.alert(
-        "Erro de Acesso ❌",
-        "E-mail ou palavra-passe incorretos.\n(Dica: Tenta 'admin' e '123')"
-      );
+    if (Platform.OS === 'web') {
+      window.alert("Sucesso! Bem-vindo de volta ao MKR Max.");
+    } 
+    // Se estiver rodando no Celular (iOS / Android)
+    else {
+      Alert.alert("Sucesso 🎉", "Bem-vindo de volta ao MKR Max.");
     }
   };
 
@@ -49,7 +42,9 @@ export default function Login() {
     <KeyboardAvoidingView 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
+
     >
+      <Stack.Screen options={{ headerShown: false }} />
       <StatusBar barStyle="light-content" />
       <LinearGradient colors={['#020530', '#000000']} style={styles.background} />
 
