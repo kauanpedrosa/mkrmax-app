@@ -1,33 +1,46 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { View, Image, Animated, StatusBar, StyleSheet } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
-import { Audio } from 'expo-av';
+import { LinearGradient } from "expo-linear-gradient";
+import React, { useEffect, useRef, useState } from "react";
+import { Animated, Image, StatusBar, StyleSheet, View } from "react-native";
+// using expo-av for audio playback (still works in SDK 54 despite deprecation warning)
+import { Audio } from "expo-av";
 
-import Login from '../login';
+import Login from "../login";
 
 export default function App() {
   const [splashFinished, setSplashFinished] = useState(false);
-  
+
   // Animações do Splash
-  const fadeAnim = useRef(new Animated.Value(0)).current;   // Entrada do logo
+  const fadeAnim = useRef(new Animated.Value(0)).current; // Entrada do logo
   const scaleAnim = useRef(new Animated.Value(0.8)).current; // Escala do logo
-  const exitAnim = useRef(new Animated.Value(1)).current;    // Saída da tela inteira (Fade Out)
+  const exitAnim = useRef(new Animated.Value(1)).current; // Saída da tela inteira (Fade Out)
 
   useEffect(() => {
     async function initApp() {
       // 1. Tocar o som
       try {
-        const { sound } = await Audio.Sound.createAsync(require('../../assets/sounds/splashsound.mp3'));
+        const { sound } = await Audio.Sound.createAsync(
+          require("../../assets/sounds/splashsound.mp3"),
+        );
         await sound.playAsync();
-        
+
         // Fade out do som antes de acabar
         setTimeout(() => sound.setVolumeAsync(0), 3800);
-      } catch (e) { console.log(e); }
+      } catch (e) {
+        console.log(e);
+      }
 
       // 2. Animação de Entrada do Logo
       Animated.parallel([
-        Animated.timing(fadeAnim, { toValue: 1, duration: 1000, useNativeDriver: true }),
-        Animated.timing(scaleAnim, { toValue: 1, duration: 1200, useNativeDriver: true }),
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 1000,
+          useNativeDriver: true,
+        }),
+        Animated.timing(scaleAnim, {
+          toValue: 1,
+          duration: 1200,
+          useNativeDriver: true,
+        }),
       ]).start();
 
       // 3. Iniciar Transição de Saída aos 3.5 segundos
@@ -44,7 +57,7 @@ export default function App() {
   }, []);
 
   return (
-    <View style={{ flex: 1, backgroundColor: '#000' }}>
+    <View style={{ flex: 1, backgroundColor: "#000" }}>
       <StatusBar barStyle="light-content" />
 
       {/* O LOGIN FICA SEMPRE POR BAIXO */}
@@ -52,20 +65,19 @@ export default function App() {
 
       {/* O SPLASH FICA POR CIMA E DESAPARECE COM O exitAnim */}
       {!splashFinished && (
-        <Animated.View 
-          style={[
-            StyleSheet.absoluteFill, 
-            { opacity: exitAnim, zIndex: 10 }
-          ]}
+        <Animated.View
+          style={[StyleSheet.absoluteFill, { opacity: exitAnim, zIndex: 10 }]}
         >
-          <LinearGradient 
-            colors={['#020530', '#000000']} 
-            style={styles.container} 
+          <LinearGradient
+            colors={["#020530", "#000000"]}
+            style={styles.container}
           >
-            <Animated.View style={{ opacity: fadeAnim, transform: [{ scale: scaleAnim }] }}>
-              <Image 
-                source={require('../../assets/images/logomkr.png')} 
-                style={{ width: 200, height: 200, resizeMode: 'contain' }} 
+            <Animated.View
+              style={{ opacity: fadeAnim, transform: [{ scale: scaleAnim }] }}
+            >
+              <Image
+                source={require("../../assets/images/logomkr.png")}
+                style={{ width: 200, height: 200, resizeMode: "contain" }}
               />
             </Animated.View>
           </LinearGradient>
@@ -78,7 +90,7 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
 });

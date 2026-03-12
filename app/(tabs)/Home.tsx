@@ -1,12 +1,25 @@
-import { Ionicons } from '@expo/vector-icons';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useRouter } from 'expo-router';
-import React, { useState, useRef } from 'react';
-import {
-    Alert,
-    Image,
-    KeyboardAvoidingView, Platform, StatusBar,
-    StyleSheet,
-    Text, TextInput, TouchableOpacity,
-    View
-} from 'react-native';
+import React from "react";
+import { StyleSheet, Text, View } from "react-native";
+
+// simple placeholder component for the home tab
+export default function Home() {
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>Home</Text>
+    </View>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#000",
+  },
+  title: {
+    color: "#fff",
+    fontSize: 24,
+    fontWeight: "bold",
+  },
+});
