@@ -18,18 +18,29 @@ export default function Login() {
   }
 
   // --- LÓGICA DE LOGIN ---
-  const handleLogin = () => {
+ const handleLogin = () => {
     // 1. Verifica se os campos estão vazios
     if (email.trim() === '' || password.trim() === '') {
       Alert.alert("Atenção ⚠️", "Por favor, preencha o e-mail e a palavra-passe.");
       return;
     }
+
     if (Platform.OS === 'web') {
       window.alert("Sucesso! Bem-vindo de volta ao MKR Max.");
+      router.replace('/planos'); // Na web pode ficar direto aqui
     } 
-    // Se estiver rodando no Celular (iOS / Android)
     else {
-      Alert.alert("Sucesso 🎉", "Bem-vindo de volta ao MKR Max.");
+      // No celular, atrelamos a navegação ao botão "OK"
+      Alert.alert(
+        "Sucesso 🎉", 
+        "Bem-vindo de volta ao MKR Max.",
+        [
+          {
+            text: "OK",
+            onPress: () => router.replace('/planos') // Só navega quando clicar em OK
+          }
+        ]
+      );
     }
   };
 
