@@ -1,69 +1,89 @@
 import React, { useState } from 'react';
 import { 
-  View, Text, TextInput, TouchableOpacity, StyleSheet, Image, 
-  KeyboardAvoidingView, Platform, StatusBar, Alert 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  StyleSheet, 
+  Image, 
+  KeyboardAvoidingView, 
+  Platform, 
+  StatusBar, 
+  Alert, 
+  ActivityIndicator 
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons'; 
 import { useRouter, Stack } from 'expo-router';
-
+// --- IMPORTAÇÃO DO ARMAZENAMENTO SEGURO ---
+import * as SecureStore from 'expo-secure-store';
 
 export default function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); 
   const router = useRouter();
 
   function irParaCadastro() {
     router.push('/cadastro');
   }
 
-  // --- LÓGICA DE LOGIN ---
- const handleLogin = () => {
-    // 1. Verifica se os campos estão vazios
+  const handleLogin = async () => {
     if (email.trim() === '' || password.trim() === '') {
       Alert.alert("Atenção ⚠️", "Por favor, preencha o e-mail e a palavra-passe.");
       return;
     }
 
-    if (Platform.OS === 'web') {
-      window.alert("Sucesso! Bem-vindo de volta ao MKR Max.");
-      router.replace('/planos'); // Na web pode ficar direto aqui
-    } 
-    else {
-      // No celular, atrelamos a navegação ao botão "OK"
-      Alert.alert(
-        "Sucesso 🎉", 
-        "Bem-vindo de volta ao MKR Max.",
-        [
-          {
-            text: "OK",
-            onPress: () => router.replace('/planos') // Só navega quando clicar em OK
-          }
-        ]
-      );
-    }
-  };
+    setLoading(true);
 
-  // --- BOTÕES SECUNDÁRIOS ---
-  const handleNotImplemented = (recurso: string) => {
-    Alert.alert("Em Desenvolvimento 🚧", `A funcionalidade "${recurso}" será implementada brevemente.`);
+    try {
+      const response = await fetch('https://outburst-occupant-curse.ngrok-free.dev/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email: email,
+          senha: password 
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        // --- SALVANDO O TOKEN NO DISPOSITIVO ---
+        // 'userToken' é a chave que usaremos para buscar o token depois
+        await SecureStore.setItemAsync('userToken', data.token);
+
+        console.log("Login bem-sucedido e token armazenado!");
+        router.replace('/home'); 
+      } else {
+        Alert.alert("Erro de Login ❌", data.mensagem || "E-mail ou senha incorretos.");
+      }
+    } catch (error) {
+      console.error(error);
+      Alert.alert("Erro de Conexão 🌐", "Não foi possível conectar ao servidor.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <KeyboardAvoidingView 
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.container}
-
     >
       <Stack.Screen options={{ headerShown: false }} />
       <StatusBar barStyle="light-content" />
+      
       <LinearGradient colors={['#020530', '#000000']} style={styles.background} />
 
       <View style={styles.content}>
-        <Image source={require('../assets/images/logomkr.png')} style={styles.logo} />
+        <Image 
+          source={require('../assets/images/logomkr.png')} 
+          style={styles.logo} 
+        />
+        
         <Text style={styles.title}>Bem-vindo de volta</Text>
 
-        {/* E-MAIL */}
         <View style={styles.inputContainer}>
           <Ionicons name="mail-outline" size={20} color="#ccc" style={styles.icon} />
           <TextInput
@@ -77,7 +97,6 @@ export default function Login() {
           />
         </View>
 
-        {/* PALAVRA-PASSE */}
         <View style={styles.inputContainer}>
           <Ionicons name="lock-closed-outline" size={20} color="#ccc" style={styles.icon} />
           <TextInput
@@ -90,20 +109,25 @@ export default function Login() {
           />
         </View>
 
-        {/* BOTÃO ENTRAR */}
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginText}>ENTRAR</Text>
+        <TouchableOpacity 
+          style={[styles.loginButton, loading && { opacity: 0.8 }]} 
+          onPress={handleLogin}
+          disabled={loading}
+        >
+          {loading ? (
+            <ActivityIndicator color="#000" />
+          ) : (
+            <Text style={styles.loginText}>ENTRAR</Text>
+          )}
         </TouchableOpacity>
 
-        {/* ESQUECI A SENHA */}
-        <TouchableOpacity style={{ marginTop: 20 }} onPress={() => handleNotImplemented('Recuperar Senha')}>
+        <TouchableOpacity style={{ marginTop: 20 }} onPress={() => Alert.alert("Suporte", "Função de recuperação em breve.")}>
           <Text style={styles.forgotText}>Esqueci a minha palavra-passe</Text>
         </TouchableOpacity>
 
-        {/* REGISTRO */}
         <TouchableOpacity style={{ marginTop: 30 }} onPress={irParaCadastro}>
           <Text style={styles.signupText}>
-            Não tem uma conta? <Text style={{fontWeight: 'bold', color: '#fff'}}>Assine agora</Text>
+            Não tem uma conta? <Text style={styles.boldWhite}>Assine agora</Text>
           </Text>
         </TouchableOpacity>
       </View>
@@ -111,21 +135,18 @@ export default function Login() {
   );
 }
 
+// Estilos mantidos conforme o original
 const styles = StyleSheet.create({
-  container: { 
-    flex: 1, 
-    backgroundColor: '#000' // Garante fundo preto se o gradiente demorar
-  },
+  container: { flex: 1, backgroundColor: '#000' },
   background: { position: 'absolute', left: 0, right: 0, top: 0, bottom: 0 },
   content: { 
     flex: 1, 
     justifyContent: 'center', 
     alignItems: 'center', 
     padding: 20,
-    // --- TOQUE DE MESTRE PARA WEB ---
     width: '100%', 
-    maxWidth: 420,       // No PC, o login não passa de 420px
-    alignSelf: 'center', // Centraliza o bloco na tela do computador
+    maxWidth: 420,       
+    alignSelf: 'center', 
   },
   logo: { width: 150, height: 100, resizeMode: 'contain', marginBottom: 20 },
   title: { color: '#fff', fontSize: 22, fontWeight: 'bold', marginBottom: 30, textAlign: 'center' },
@@ -151,7 +172,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center', 
     alignItems: 'center', 
     marginTop: 10,
-    // Efeito sutil de elevação (funciona melhor em dispositivos móveis)
     elevation: 3,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -161,4 +181,5 @@ const styles = StyleSheet.create({
   loginText: { color: '#000', fontWeight: 'bold', fontSize: 16, letterSpacing: 1 },
   forgotText: { color: '#ccc', fontSize: 14 },
   signupText: { color: '#ccc', fontSize: 14 },
+  boldWhite: { fontWeight: 'bold', color: '#fff' }
 });
