@@ -9,26 +9,46 @@ import { useRouter, Stack } from 'expo-router';
 // --- IMPORTAÇÃO COMPATÍVEL COM EXPO-VIDEO ---
 import { useVideoPlayer, VideoView } from 'expo-video';
 
+// TRAILER PADRÃO PARA O BANNER E FALLBACK
+const TRAILER_PRINCIPAL = 'https://raw.githubusercontent.com/kauanpedrosa/mkrmax-app/main/videos/supergirl.mp4';
+
+// ========================================================
+// LISTAS DE FILMES COM LINKS DINÂMICOS DE VÍDEO
+// ========================================================
 const MEUS_FAVORITOS = [
-  { id: '1', image: 'https://veja.abril.com.br/wp-content/uploads/2024/02/MV5BYWQwY2VmNWQtZmY0Yy00NTEyLWE0ZDAtYWZlODRkYWEyNTI4XkEyXkFqcGdeQXVyMDM2NDM2MQ%40%40._V1_FMjpg_UX2160_.jpg?crop=1&resize=1212,909', titulo: 'Avatar: O Último Mestre do Ar' },
-  { id: '2', image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkdn42TTR5kq0ezEmZ57zmyrfzFWppipfIPA&s', titulo: 'The Backrooms: Um Não-Lugar' },
-  { id: '3', image: 'https://br.web.img3.acsta.net/c_310_420/img/e9/f1/e9f1efa99c6af0bbe48871b6d0a299f9.jpg', titulo: 'Michael Jackson' },
-  { id: '4', image: 'https://images.unsplash.com/photo-1509248961158-e54f6934749c?w=400', titulo: 'Guerra Neon' },
+  { id: 'f1', image: 'https://veja.abril.com.br/wp-content/uploads/2024/02/MV5BYWQwY2VmNWQtZmY0Yy00NTEyLWE0ZDAtYWZlODRkYWEyNTI4XkEyXkFqcGdeQXVyMDM2NDM2MQ%40%40._V1_FMjpg_UX2160_.jpg?crop=1&resize=1212,909', titulo: 'Avatar: O Último Mestre do Ar', videoUrl: 'https://raw.githubusercontent.com/kauanpedrosa/mkrmax-app/main/videos/AvatarAang.mp4' },
+  { id: 'f2', image: 'https://br.web.img3.acsta.net/c_310_420/img/e9/f1/e9f1efa99c6af0bbe48871b6d0a299f9.jpg', titulo: 'Michael Jackson', videoUrl: 'https://raw.githubusercontent.com/kauanpedrosa/mkrmax-app/main/videos/MichaelJackson.mp4' },
+  { id: 'f3', image: 'https://referencianerd.com/wp-content/uploads/2019/12/elsa.jpg', titulo: 'Frozen 2', videoUrl: 'https://raw.githubusercontent.com/kauanpedrosa/mkrmax-app/main/videos/Frozen2.mp4' },
+];
+
+const FILMES_POPULARES = [
+  { id: 'p1', image: 'https://www.papodecinema.com.br/wp-content/uploads/2021/11/20211116-homem-aranha-sem-volta-para-casa-papo-de-cinema-cartaz.webp', titulo: 'Homem-Aranha: Sem Volta Para Casa', videoUrl: TRAILER_PRINCIPAL },
+  { id: 'p2', image: 'https://play-lh.googleusercontent.com/b0bqoD27ib25NwPutF8Kf740iiFQ53CKUz27VBQkCQtvSfhdWQtb8vwFxxn-SzI-5ZATXXkDwf2qPODkNQ', titulo: 'Batman: O Cavaleiro das Trevas', videoUrl: TRAILER_PRINCIPAL },
+  { id: 'p3', image: 'https://ingresso-a.akamaihd.net/b2b/production/uploads/article/image/4632/ef9e971e0582d0e846485a24b78f1b73.jpg', titulo: 'Vingadores: Ultimato', videoUrl: TRAILER_PRINCIPAL },
+  { id: 'p4', image: 'https://play-lh.googleusercontent.com/64SMx5o6rrX5HIGVkKt8aJaunQ-owWPlvqRv-MBTs4ZMF5yk3-X-nPj7GmSmuPqiAkg23HgOI8O9mNPgLw', titulo: 'Coringa', videoUrl: TRAILER_PRINCIPAL },
+  { id: 'p5', image: 'https://br.web.img3.acsta.net/c_310_420/pictures/14/10/31/20/39/476171.jpg', titulo: 'Interestelar', videoUrl: TRAILER_PRINCIPAL },
 ];
 
 export default function Home() {
   const router = useRouter();
   const [isWatching, setIsWatching] = useState(false);
 
-  // Link do vídeo exemplo (substitua pelo link stream real da sua API futuramente)
-  const videoSource = 'https://raw.githubusercontent.com/kauanpedrosa/mkrmax-app/main/trailer.mp4';
+  // ESTADO DOS FAVORITOS
+  const [listaFavoritos, setListaFavoritos] = useState<any[]>([]);
 
-  // Configuração do Player de vídeo nativo do Expo
-  const player = useVideoPlayer(videoSource, (p) => {
+  // Configuração do Player de vídeo nativo do Expo (inicia com o trailer padrão)
+  const player = useVideoPlayer(TRAILER_PRINCIPAL, (p) => {
     p.loop = false;
   });
 
-  const handlePlayVideo = () => {
+  // FUNÇÃO ATUALIZADA: Agora recebe o link dinâmico
+  const handlePlayVideo = (urlEspecifica?: string) => {
+    if (urlEspecifica) {
+      player.replace(urlEspecifica);
+    } else {
+      player.replace(TRAILER_PRINCIPAL);
+    }
+    
     setIsWatching(true);
     player.play();
   };
@@ -36,6 +56,16 @@ export default function Home() {
   const handleCloseVideo = () => {
     player.pause();
     setIsWatching(false);
+  };
+
+  // FUNÇÃO DE FAVORITAR/DESFAVORITAR
+  const toggleFavorito = (filme: any) => {
+    const jaE_Favorito = listaFavoritos.some(item => item.id === filme.id);
+    if (jaE_Favorito) {
+      setListaFavoritos(listaFavoritos.filter(item => item.id !== filme.id));
+    } else {
+      setListaFavoritos([...listaFavoritos, filme]);
+    }
   };
 
   return (
@@ -79,23 +109,60 @@ export default function Home() {
               <Text style={styles.heroTitle}>SUPERGIRL O FILME</Text>
               <View style={styles.heroButtons}>
                 
-                {/* BOTÃO ASSISTIR QUE REPRODUZ O VÍDEO */}
-                <TouchableOpacity style={styles.playButton} onPress={handlePlayVideo}>
+                {/* BOTÃO ASSISTIR QUE REPRODUZ O TRAILER PRINCIPAL */}
+                <TouchableOpacity style={styles.playButton} onPress={() => handlePlayVideo(TRAILER_PRINCIPAL)}>
                   <Ionicons name="play" size={20} color="#000" />
-                  <Text style={styles.playText}>Assistir</Text>
+                  <Text style={styles.playText}>Trailer</Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.listButton}>
-                  <Ionicons name="add" size={24} color="#fff" />
-                  <Text style={styles.listText}>Minha Lista</Text>
+                {/* BOTÃO MINHA LISTA DINÂMICO NO BANNER */}
+                <TouchableOpacity 
+                  style={styles.listButton}
+                  onPress={() => toggleFavorito({ id: 'hero1', titulo: 'Supergirl', image: 'https://abcdoabc.com.br/_image?href=https%3A%2F%2Fcdn-imgs.s3.sa-east-1.amazonaws.com%2Fwp-content%2Fuploads%2F2025%2F12%2Fsupergirl.jpg&w=525&h=350&f=webp', videoUrl: TRAILER_PRINCIPAL })}
+                >
+                  <Ionicons 
+                    name={listaFavoritos.some(item => item.id === 'hero1') ? "checkmark" : "add"} 
+                    size={24} 
+                    color={listaFavoritos.some(item => item.id === 'hero1') ? "#00E5FF" : "#fff"} 
+                  />
+                  <Text style={[styles.listText, listaFavoritos.some(item => item.id === 'hero1') && { color: '#00E5FF' }]}>
+                    {listaFavoritos.some(item => item.id === 'hero1') ? "Salvo" : "Minha Lista"}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
 
-          {/* CATÁLOGO: MEUS FAVORITOS */}
+          {/* LISTA DINÂMICA DE FAVORITOS (Só aparece se tiver filme salvo) */}
+          {listaFavoritos.length > 0 && (
+            <View style={[styles.categoriesContainer, { marginTop: 30 }]}>
+              <Text style={[styles.categoryTitle, { color: '#00E5FF' }]}>Minha Lista Favorita ★</Text>
+              <FlatList
+                horizontal
+                data={listaFavoritos}
+                keyExtractor={(item) => 'fav-' + item.id}
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={{ paddingHorizontal: Platform.OS === 'web' ? 0 : 20 }}
+                renderItem={({ item }: { item: any }) => (
+                  // Clicar no card roda o vídeo salvo
+                  <TouchableOpacity style={styles.movieCard} onPress={() => handlePlayVideo(item.videoUrl)}>
+                    <Image source={{ uri: item.image }} style={styles.cardImage} />
+                    <LinearGradient colors={['transparent', 'rgba(0,0,0,0.9)']} style={styles.cardGradient} />
+                    <Text style={styles.cardTitle}>{item.titulo}</Text>
+                    
+                    {/* Botão de remover dos favoritos */}
+                    <TouchableOpacity style={styles.favoriteHeartIcon} onPress={() => toggleFavorito(item)}>
+                      <Ionicons name="heart" size={20} color="#00E5FF" />
+                    </TouchableOpacity>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          )}
+
+          {/* CATÁLOGO: MEUS FAVORITOS (CONTINUAR ASSISTINDO) */}
           <View style={styles.categoriesContainer}>
-            <Text style={styles.categoryTitle}>Meus Favoritos</Text>
+            <Text style={styles.categoryTitle}>Continuar Assistindo</Text>
             <FlatList
               horizontal
               data={MEUS_FAVORITOS}
@@ -103,30 +170,74 @@ export default function Home() {
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={{ paddingHorizontal: Platform.OS === 'web' ? 0 : 20 }}
               renderItem={({ item }: { item: any }) => (
-                <TouchableOpacity style={styles.movieCard}>
+                // Clicar no card roda o vídeo dinâmico
+                <TouchableOpacity style={styles.movieCard} onPress={() => handlePlayVideo(item.videoUrl)}>
                   <Image source={{ uri: item.image }} style={styles.cardImage} />
                   <LinearGradient 
                     colors={['transparent', 'rgba(0,0,0,0.9)']} 
                     style={styles.cardGradient} 
                   />
                   <Text style={styles.cardTitle}>{item.titulo}</Text>
+
+                  {/* Ícone de Coração flutuante */}
+                  <TouchableOpacity style={styles.favoriteHeartIcon} onPress={() => toggleFavorito(item)}>
+                    <Ionicons 
+                      name={listaFavoritos.some(fav => fav.id === item.id) ? "heart" : "heart-outline"} 
+                      size={20} 
+                      color={listaFavoritos.some(fav => fav.id === item.id) ? "#00E5FF" : "#fff"} 
+                    />
+                  </TouchableOpacity>
                 </TouchableOpacity>
               )}
             />
           </View>
 
-          <View style={{ height: 120 }} />
+          {/* NOVA SEÇÃO ADICIONADA: RECOMENDADOS / POPULARES */}
+          <View style={[styles.categoriesContainer, { marginTop: 30 }]}>
+            <Text style={styles.categoryTitle}>Filmes Populares</Text>
+            <FlatList
+              horizontal
+              data={FILMES_POPULARES}
+              keyExtractor={(item) => item.id}
+              showsHorizontalScrollIndicator={false}
+              contentContainerStyle={{ paddingHorizontal: Platform.OS === 'web' ? 0 : 20 }}
+              renderItem={({ item }: { item: any }) => (
+                // Clicar no card roda o vídeo dinâmico
+                <TouchableOpacity style={styles.movieCard} onPress={() => handlePlayVideo(item.videoUrl)}>
+                  <Image source={{ uri: item.image }} style={styles.cardImage} />
+                  <LinearGradient 
+                    colors={['transparent', 'rgba(0,0,0,0.9)']} 
+                    style={styles.cardGradient} 
+                  />
+                  <Text style={styles.cardTitle}>{item.titulo}</Text>
+
+                  {/* Ícone de Coração flutuante */}
+                  <TouchableOpacity style={styles.favoriteHeartIcon} onPress={() => toggleFavorito(item)}>
+                    <Ionicons 
+                      name={listaFavoritos.some(fav => fav.id === item.id) ? "heart" : "heart-outline"} 
+                      size={20} 
+                      color={listaFavoritos.some(fav => fav.id === item.id) ? "#00E5FF" : "#fff"} 
+                    />
+                  </TouchableOpacity>
+                </TouchableOpacity>
+              )}
+            />
+          </View>
+
+          {/* Espaçador no final para o conteúdo não sumir atrás da TabBar */}
+          <View style={{ height: 140 }} />
         </ScrollView>
 
-        {/* BOTTOM TAB BAR RESPONSIVA */}
+        {/* BOTTOM TAB BAR RESPONSIVA E DINÂMICA */}
         <View style={styles.bottomTab}>
           <TouchableOpacity style={styles.tabItem}>
             <Ionicons name="home" size={24} color="#00E5FF" />
             <Text style={[styles.tabText, { color: '#00E5FF' }]}>Início</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.tabItem}>
-            <Ionicons name="heart-outline" size={24} color="#888" />
-            <Text style={styles.tabText}>Favoritos</Text>
+            {/* Muda o visual se tiver favoritos na lista */}
+            <Ionicons name={listaFavoritos.length > 0 ? "heart" : "heart-outline"} size={24} color={listaFavoritos.length > 0 ? "#00E5FF" : "#888"} />
+            <Text style={[styles.tabText, listaFavoritos.length > 0 && { color: '#00E5FF' }]}>Favoritos</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.tabItem}>
             <Ionicons name="download-outline" size={24} color="#888" />
@@ -146,7 +257,8 @@ export default function Home() {
         <View style={styles.modalContainer}>
           <VideoView 
             style={styles.fullScreenVideo} 
-            player={player}  
+            player={player} 
+            allowsFullscreen={true} 
             nativeControls 
           />
           {/* Botão flutuante para fechar o player */}
@@ -218,6 +330,16 @@ const styles = StyleSheet.create({
   cardGradient: { position: 'absolute', bottom: 0, left: 0, right: 0, height: 100 },
   cardTitle: { position: 'absolute', bottom: 10, left: 10, right: 10, color: '#fff', fontSize: 14, fontWeight: 'bold', textAlign: 'center' },
   
+  // ESTILO DO CORAÇÃOZINHO NO CARD
+  favoriteHeartIcon: {
+    position: 'absolute',
+    top: 10,
+    right: 10,
+    backgroundColor: 'rgba(0,0,0,0.6)',
+    padding: 6,
+    borderRadius: 15,
+  },
+
   // TAB BAR TRAVADA NO CENTRO PARA NÃO ESPALHAR NO PC
   bottomTab: { 
     flexDirection: 'row', 
