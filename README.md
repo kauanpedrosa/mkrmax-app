@@ -9,13 +9,15 @@ Este é um projeto de estudo desenvolvido com **React Native** e **Expo**. O obj
 * **Tratamento de Áudio:** Sistema de fade-out no som para evitar cortes bruscos na transição de telas.
 * **Interface de Login:** Design baseado em gradientes, inputs estilizados e validação de campos.
 * **Feedback ao Usuário:** Alertas personalizados para funcionalidades em desenvolvimento e validação de credenciais.
+* **Tela de Home:** Tela home personalizada para favoritar e assistir séries ou filmes
 
 ## 🛠 Tecnologias Utilizadas
 
 * [React Native Web](https://reactnative.dev/)
 * [TypeScript](https://www.typescriptlang.org/)
 * [Expo](https://expo.dev/)
-* [Expo AV](https://docs.expo.dev/versions/latest/sdk/av/) (Áudio) - a ser atualizado para uma versão mais atual
+* [Expo AUDIO](https://docs.expo.dev/versions/latest/sdk/audio/) 
+* [Expo VIDEO] (https://docs.expo.dev/versions/latest/sdk/video/)
 * [Expo Linear Gradient](https://docs.expo.dev/versions/latest/sdk/linear-gradient/)
 * [Lucide React Native / Ionicons](https://icons.expo.fyi/) (Ícones)
 
@@ -27,7 +29,7 @@ Este é um projeto de estudo desenvolvido com **React Native** e **Expo**. O obj
 
 2. **Entre na pasta do projeto:**
    ```bash
-   cd meu-app-incrivel
+   cd mkrmax-app
 
 3. **Instale as dependências:**
    ```bash
