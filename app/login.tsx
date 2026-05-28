@@ -54,7 +54,7 @@ export default function Login() {
         await SecureStore.setItemAsync('userToken', data.token);
 
         console.log("Login bem-sucedido e token armazenado!");
-        router.replace('/home'); 
+        router.replace('/planos'); 
       } else {
         Alert.alert("Erro de Login ❌", data.mensagem || "E-mail ou senha incorretos.");
       }

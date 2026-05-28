@@ -6,15 +6,10 @@ import {
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter, Stack } from 'expo-router';
-// --- IMPORTAÇÃO COMPATÍVEL COM EXPO-VIDEO ---
 import { useVideoPlayer, VideoView } from 'expo-video';
 
-// TRAILER PADRÃO PARA O BANNER E FALLBACK
 const TRAILER_PRINCIPAL = 'https://raw.githubusercontent.com/kauanpedrosa/mkrmax-app/main/videos/supergirl.mp4';
 
-// ========================================================
-// LISTAS DE FILMES COM LINKS DINÂMICOS DE VÍDEO
-// ========================================================
 const MEUS_FAVORITOS = [
   { id: 'f1', image: 'https://veja.abril.com.br/wp-content/uploads/2024/02/MV5BYWQwY2VmNWQtZmY0Yy00NTEyLWE0ZDAtYWZlODRkYWEyNTI4XkEyXkFqcGdeQXVyMDM2NDM2MQ%40%40._V1_FMjpg_UX2160_.jpg?crop=1&resize=1212,909', titulo: 'Avatar: O Último Mestre do Ar', videoUrl: 'https://raw.githubusercontent.com/kauanpedrosa/mkrmax-app/main/videos/AvatarAang.mp4' },
   { id: 'f2', image: 'https://br.web.img3.acsta.net/c_310_420/img/e9/f1/e9f1efa99c6af0bbe48871b6d0a299f9.jpg', titulo: 'Michael Jackson', videoUrl: 'https://raw.githubusercontent.com/kauanpedrosa/mkrmax-app/main/videos/MichaelJackson.mp4' },
@@ -41,7 +36,6 @@ export default function Home() {
     p.loop = false;
   });
 
-  // FUNÇÃO ATUALIZADA: Agora recebe o link dinâmico
   const handlePlayVideo = (urlEspecifica?: string) => {
     if (urlEspecifica) {
       player.replace(urlEspecifica);
@@ -58,7 +52,6 @@ export default function Home() {
     setIsWatching(false);
   };
 
-  // FUNÇÃO DE FAVORITAR/DESFAVORITAR
   const toggleFavorito = (filme: any) => {
     const jaE_Favorito = listaFavoritos.some(item => item.id === filme.id);
     if (jaE_Favorito) {

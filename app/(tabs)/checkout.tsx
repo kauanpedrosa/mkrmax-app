@@ -28,7 +28,18 @@ export default function Checkout() {
       return;
     }
     
-    Alert.alert("Sucesso 🎉", "Pagamento Aprovado! Bem-vindo ao MKR Max Premium.");
+    Alert.alert(
+      "Sucesso 🎉", 
+      "Pagamento Aprovado! Bem-vindo ao MKR Max Premium.",
+      [
+        {
+          text: "Bora assistir! 🍿",
+          onPress: () => {
+            router.replace('/Home'); 
+          }
+        }
+      ]
+    );
   };
 
   return (
